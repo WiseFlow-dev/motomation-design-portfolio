@@ -6,12 +6,13 @@
 gsap.registerPlugin(ScrollTrigger);
 
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const isDesktopPointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
 /* ----------------------------------------------------------------
-   Smooth scroll (Lenis) — skipped for reduced motion
+   Smooth scroll (Lenis) — desktop only; phones scroll natively
 ---------------------------------------------------------------- */
 let lenis = null;
-if (!prefersReducedMotion) {
+if (!prefersReducedMotion && isDesktopPointer) {
   lenis = new Lenis({ duration: 1.1 });
   lenis.on("scroll", ScrollTrigger.update);
   gsap.ticker.add((time) => lenis.raf(time * 1000));
@@ -116,15 +117,17 @@ if (!prefersReducedMotion) {
     });
   });
 
-  // Hero shapes drift on scroll (parallax)
-  gsap.to(".hero__shape--ring", {
-    yPercent: 140, rotation: 90, ease: "none",
-    scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: 1 },
-  });
-  gsap.to(".hero__shape--dot", {
-    yPercent: -220, ease: "none",
-    scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: 1 },
-  });
+  // Hero shapes drift on scroll (parallax) — desktop only, hidden on phones
+  if (isDesktopPointer) {
+    gsap.to(".hero__shape--ring", {
+      yPercent: 140, rotation: 90, ease: "none",
+      scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: 1 },
+    });
+    gsap.to(".hero__shape--dot", {
+      yPercent: -220, ease: "none",
+      scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: 1 },
+    });
+  }
 
   // Studio text: words light up as you scroll
   const studioText = document.getElementById("studio-text");
@@ -155,6 +158,57 @@ if (!prefersReducedMotion) {
     ease: "power4.out",
     scrollTrigger: { trigger: ".contact", start: "top 70%" },
   });
+
+  // Hero drifts away with depth as you scroll past it
+  gsap.to(".hero__title", {
+    yPercent: -14,
+    autoAlpha: 0.25,
+    ease: "none",
+    scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom 35%", scrub: true },
+  });
+
+  // Scroll drags the orange ticker sideways
+  gsap.fromTo(".marquee",
+    { xPercent: 1.5 },
+    {
+      xPercent: -3.5,
+      ease: "none",
+      scrollTrigger: { trigger: ".marquee", start: "top bottom", end: "bottom top", scrub: true },
+    }
+  );
+
+  // The phone video card floats slower than the page (parallax)
+  gsap.fromTo(".project__media",
+    { y: 50 },
+    {
+      y: -50,
+      ease: "none",
+      scrollTrigger: { trigger: ".project", start: "top bottom", end: "bottom top", scrub: true },
+    }
+  );
+
+  // Titles lean with scroll speed, then spring back (desktop only)
+  if (isDesktopPointer) {
+    const skewClamp = gsap.utils.clamp(-3.5, 3.5);
+    const skewProxy = { skew: 0 };
+    const skewSetter = gsap.quickSetter(".skewable", "skewY", "deg");
+
+    ScrollTrigger.create({
+      onUpdate(self) {
+        const skew = skewClamp(self.getVelocity() / -400);
+        if (Math.abs(skew) > Math.abs(skewProxy.skew)) {
+          skewProxy.skew = skew;
+          gsap.to(skewProxy, {
+            skew: 0,
+            duration: 0.7,
+            ease: "power3.out",
+            overwrite: true,
+            onUpdate: () => skewSetter(skewProxy.skew),
+          });
+        }
+      },
+    });
+  }
 }
 
 /* ----------------------------------------------------------------
@@ -232,19 +286,72 @@ window.addEventListener("keydown", (e) => {
 });
 
 /* ----------------------------------------------------------------
-   Email button: copy to clipboard
+   Contact dialog: open, close, send via Netlify Forms
 ---------------------------------------------------------------- */
-const emailBtn = document.getElementById("email-btn");
-if (emailBtn) {
-  emailBtn.addEventListener("click", async () => {
-    const email = emailBtn.querySelector(".contact__email-text").textContent.trim();
+const contactModal = document.getElementById("contact-modal");
+const contactForm = document.getElementById("contact-form");
+const formSuccess = document.getElementById("form-success");
+const formError = document.getElementById("form-error");
+const openContactBtns = document.querySelectorAll("[data-open-contact]");
+
+function openContactModal() {
+  contactModal.classList.add("is-open");
+  contactModal.setAttribute("aria-hidden", "false");
+  if (lenis) lenis.stop();
+  if (!prefersReducedMotion) {
+    gsap.fromTo(".contact-modal__panel",
+      { y: 46, autoAlpha: 0 },
+      { y: 0, autoAlpha: 1, duration: 0.5, ease: "power3.out" }
+    );
+    gsap.fromTo(".contact-form__field, .contact-form__send",
+      { y: 18, autoAlpha: 0 },
+      { y: 0, autoAlpha: 1, duration: 0.45, stagger: 0.05, delay: 0.1, ease: "power2.out" }
+    );
+  }
+  setTimeout(() => document.getElementById("cf-name").focus(), 450);
+}
+
+function closeContactModal() {
+  contactModal.classList.remove("is-open");
+  contactModal.setAttribute("aria-hidden", "true");
+  if (lenis) lenis.start();
+}
+
+openContactBtns.forEach((btn) => btn.addEventListener("click", openContactModal));
+document.querySelectorAll("[data-modal-close]").forEach((el) => {
+  el.addEventListener("click", closeContactModal);
+});
+window.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && contactModal.classList.contains("is-open")) closeContactModal();
+});
+
+if (contactForm) {
+  contactForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const sendBtn = contactForm.querySelector(".contact-form__send");
+    sendBtn.disabled = true;
+    sendBtn.textContent = "Sending…";
+    formError.hidden = true;
+
     try {
-      await navigator.clipboard.writeText(email);
+      const res = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(new FormData(contactForm)).toString(),
+      });
+      if (!res.ok) throw new Error("send failed");
+      contactForm.hidden = true;
+      formSuccess.hidden = false;
+      if (!prefersReducedMotion) {
+        gsap.from(".contact-form__success-big", {
+          scale: 0.4, autoAlpha: 0, duration: 0.6, ease: "back.out(2)",
+        });
+      }
     } catch {
-      window.location.href = `mailto:${email}`;
-      return;
+      formError.hidden = false;
+      sendBtn.disabled = false;
+      sendBtn.textContent = "Send it →";
     }
-    emailBtn.classList.add("is-copied");
-    setTimeout(() => emailBtn.classList.remove("is-copied"), 1600);
   });
 }
+
