@@ -177,15 +177,17 @@ if (!prefersReducedMotion) {
     }
   );
 
-  // The phone video card floats slower than the page (parallax)
-  gsap.fromTo(".project__media",
-    { y: 50 },
-    {
-      y: -50,
-      ease: "none",
-      scrollTrigger: { trigger: ".project", start: "top bottom", end: "bottom top", scrub: true },
-    }
-  );
+  // The phone video cards float slower than the page (parallax) — one per card
+  gsap.utils.toArray(".project").forEach((proj) => {
+    gsap.fromTo(proj.querySelector(".project__media"),
+      { y: 50 },
+      {
+        y: -50,
+        ease: "none",
+        scrollTrigger: { trigger: proj, start: "top bottom", end: "bottom top", scrub: true },
+      }
+    );
+  });
 
   // Titles lean with scroll speed, then spring back (desktop only)
   if (isDesktopPointer) {
@@ -235,22 +237,19 @@ if (cursor && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
 /* ----------------------------------------------------------------
    Project video: silent autoplay preview when visible
 ---------------------------------------------------------------- */
-const previewVideo = document.querySelector(".project__video");
-if (previewVideo) {
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          previewVideo.play().catch(() => {});
-        } else {
-          previewVideo.pause();
-        }
-      });
-    },
-    { threshold: 0.35 }
-  );
-  observer.observe(previewVideo);
-}
+const previewObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.play().catch(() => {});
+      } else {
+        entry.target.pause();
+      }
+    });
+  },
+  { threshold: 0.35 }
+);
+document.querySelectorAll(".project__video").forEach((v) => previewObserver.observe(v));
 
 /* ----------------------------------------------------------------
    Lightbox: click project → full video with sound
@@ -286,21 +285,13 @@ window.addEventListener("keydown", (e) => {
 });
 
 /* ----------------------------------------------------------------
-   Contact dialog: open, close, send via EmailJS
+   Contact dialog: open, close, send via Netlify Forms
 ---------------------------------------------------------------- */
 const contactModal = document.getElementById("contact-modal");
 const contactForm = document.getElementById("contact-form");
 const formSuccess = document.getElementById("form-success");
 const formError = document.getElementById("form-error");
 const openContactBtns = document.querySelectorAll("[data-open-contact]");
-
-const EMAILJS_SERVICE_ID = "service_u9dywxq";
-const EMAILJS_TEMPLATE_ID = "template_hp60o9f";
-const EMAILJS_PUBLIC_KEY = "BHenxEfDlUwnSLGJo";
-
-if (window.emailjs) {
-  emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
-}
 
 function openContactModal() {
   contactModal.classList.add("is-open");
@@ -342,8 +333,12 @@ if (contactForm) {
     formError.hidden = true;
 
     try {
-      if (!window.emailjs) throw new Error("EmailJS failed to load");
-      await emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, contactForm);
+      const res = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(new FormData(contactForm)).toString(),
+      });
+      if (!res.ok) throw new Error("send failed");
       contactForm.hidden = true;
       formSuccess.hidden = false;
       if (!prefersReducedMotion) {
@@ -351,12 +346,11 @@ if (contactForm) {
           scale: 0.4, autoAlpha: 0, duration: 0.6, ease: "back.out(2)",
         });
       }
-    } catch (error) {
-      // Keep the form open so the visitor can retry.
-      console.error("Contact form failed:", error);
+    } catch {
       formError.hidden = false;
       sendBtn.disabled = false;
       sendBtn.textContent = "Send it →";
     }
   });
 }
+

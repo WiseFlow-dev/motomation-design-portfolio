@@ -11,7 +11,7 @@
   <link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&f[]=general-sans@400,500,600&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="css/styles.css?v=10" />
+  <link rel="stylesheet" href="css/styles.css?v=11" />
 </head>
 <body>
 
@@ -105,14 +105,32 @@
         </div>
       </article>
 
+      <article class="project project--alt reveal" data-hover data-lightbox="assets/bond-promo.mp4">
+        <div class="project__media">
+          <video class="project__video" src="assets/bond-preview.mp4" poster="assets/bond-poster.jpg" muted loop playsinline preload="metadata"></video>
+          <div class="project__play mono">▶ PLAY WITH SOUND</div>
+        </div>
+        <div class="project__meta">
+          <span class="project__num mono">/02</span>
+          <h3 class="project__title">Bond — AI Chief of Staff</h3>
+          <p class="project__tags mono">APP PROMO · MOTION DESIGN · SOUND</p>
+          <p class="project__desc">
+            A 30-second intro for Bond — an AI chief of staff that turns email,
+            Slack and calendar chaos into one prioritized to-do list. Made to
+            let busy founders feel the calm before they read a word.
+          </p>
+          <span class="project__watch">Watch with sound <span class="slot__arrow">→</span></span>
+        </div>
+      </article>
+
       <div class="slots">
         <article class="slot reveal">
-          <span class="slot__num mono">/02</span>
+          <span class="slot__num mono">/03</span>
           <h3 class="slot__title">Next project</h3>
           <p class="slot__sub mono">IN PRODUCTION ░░░░░░░░░░</p>
         </article>
         <button class="slot slot--cta reveal" data-open-contact data-hover>
-          <span class="slot__num mono">/03</span>
+          <span class="slot__num mono">/04</span>
           <span class="slot__title">Your product here <span class="slot__arrow">→</span></span>
           <span class="slot__sub mono">THIS SPOT IS WAITING FOR YOU</span>
         </button>
@@ -183,9 +201,10 @@
       <p class="contact-modal__label mono">SEND MO A MESSAGE</p>
       <h3 class="contact-modal__title">Tell me about your product.</h3>
 
-      <form class="contact-form" id="contact-form" name="contact">
+      <form class="contact-form" id="contact-form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="contact" />
         <p class="contact-form__trap" aria-hidden="true">
-          <label>Leave this empty: <input name="company" tabindex="-1" autocomplete="off" /></label>
+          <label>Leave this empty: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
         </p>
         <div class="contact-form__field">
           <label class="mono" for="cf-name">FULL NAME</label>
@@ -229,7 +248,6 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.11/dist/lenis.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <script src="js/main.js?v=12"></script>
+  <script src="js/main.js?v=11"></script>
 </body>
 </html>

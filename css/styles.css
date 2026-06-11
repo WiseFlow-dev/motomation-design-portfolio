@@ -392,6 +392,16 @@ a { color: inherit; text-decoration: none; }
   gap: clamp(2rem, 5vw, 5rem);
   align-items: center;
 }
+.project + .project { margin-top: clamp(4rem, 8vw, 7rem); }
+/* Alternate card: video on the right */
+.project--alt { grid-template-columns: 1fr clamp(250px, 30vw, 400px); }
+.project--alt .project__media { order: 2; }
+.project--alt .project__meta { order: 1; }
+@media (max-width: 720px) {
+  .project--alt { grid-template-columns: 1fr; }
+  .project--alt .project__media { order: 0; }
+  .project--alt .project__meta { order: 1; }
+}
 .project__media {
   position: relative;
   overflow: hidden;
