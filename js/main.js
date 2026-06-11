@@ -286,7 +286,7 @@ window.addEventListener("keydown", (e) => {
 });
 
 /* ----------------------------------------------------------------
-   Contact dialog: open, close, send via Netlify Forms
+   Contact dialog: open, close, send via FormSubmit
 ---------------------------------------------------------------- */
 const contactModal = document.getElementById("contact-modal");
 const contactForm = document.getElementById("contact-form");
@@ -334,7 +334,7 @@ if (contactForm) {
     formError.hidden = true;
 
     try {
-      const res = await fetch("/", {
+      const res = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent("motomation.co@gmail.com")}`, {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: new URLSearchParams(new FormData(contactForm)).toString(),
@@ -354,4 +354,3 @@ if (contactForm) {
     }
   });
 }
-

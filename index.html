@@ -183,10 +183,11 @@
       <p class="contact-modal__label mono">SEND MO A MESSAGE</p>
       <h3 class="contact-modal__title">Tell me about your product.</h3>
 
-      <form class="contact-form" id="contact-form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
-        <input type="hidden" name="form-name" value="contact" />
+      <form class="contact-form" id="contact-form" name="contact" method="POST" action="https://formsubmit.co/motomation.co@gmail.com">
+        <input type="hidden" name="_subject" value="New message from the Motomation website" />
+        <input type="hidden" name="_template" value="table" />
         <p class="contact-form__trap" aria-hidden="true">
-          <label>Leave this empty: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
+          <label>Leave this empty: <input name="_honey" tabindex="-1" autocomplete="off" /></label>
         </p>
         <div class="contact-form__field">
           <label class="mono" for="cf-name">FULL NAME</label>
