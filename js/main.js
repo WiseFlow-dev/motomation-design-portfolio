@@ -41,6 +41,11 @@ if (!prefersReducedMotion) {
   gsap.set(heroLines, { yPercent: 110 });
   gsap.set([".hero__label", ".hero__bottom", ".hero__shape"], { autoAlpha: 0 });
 
+  // Take over letter positioning in one unit (percent of letter height).
+  // The CSS translateY(110%) only prevents a flash before this line runs.
+  const letters = document.querySelectorAll(".preloader__word span");
+  gsap.set(letters, { y: 0, yPercent: 110 });
+
   // Wait for fonts (max 1.5s) so the word doesn't swap typefaces mid-animation
   const fontsReady = Promise.race([
     document.fonts.ready,
@@ -51,18 +56,20 @@ if (!prefersReducedMotion) {
   fontsReady.then(() => intro.play());
 
   intro
-    .to(".preloader__word span", {
-      y: 0,
-      duration: 0.7,
-      stagger: 0.045,
+    // letters rise in a tight wave...
+    .to(letters, {
+      yPercent: 0,
+      duration: 0.55,
+      stagger: 0.035,
       ease: "power3.out",
     })
-    .to(".preloader__word span", {
-      y: "-110%",
-      duration: 0.5,
-      stagger: 0.03,
+    // ...the full word holds long enough to be read...
+    .to(letters, {
+      yPercent: -110,
+      duration: 0.45,
+      stagger: 0.02,
       ease: "power2.in",
-      delay: 0.35,
+      delay: 0.6,
     })
     .to("#preloader", {
       yPercent: -100,
