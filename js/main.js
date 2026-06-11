@@ -28,7 +28,7 @@ document.querySelectorAll('a[href^="#"]').forEach((link) => {
     if (lenis) {
       lenis.scrollTo(target, { offset: 0, duration: 1.4 });
     } else {
-      target.scrollIntoView();
+      target.scrollIntoView({ behavior: "smooth" });
     }
   });
 });
