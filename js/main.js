@@ -336,7 +336,10 @@ if (contactForm) {
     try {
       const res = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent("motomation.co@gmail.com")}`, {
         method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
         body: new URLSearchParams(new FormData(contactForm)).toString(),
       });
       if (!res.ok) throw new Error("send failed");
@@ -348,9 +351,10 @@ if (contactForm) {
         });
       }
     } catch {
-      formError.hidden = false;
-      sendBtn.disabled = false;
-      sendBtn.textContent = "Send it →";
+      // A normal form submission handles first-time email activation and
+      // browsers that block FormSubmit's background request.
+      sendBtn.textContent = "Opening secure form…";
+      HTMLFormElement.prototype.submit.call(contactForm);
     }
   });
 }
