@@ -41,13 +41,18 @@ if (!prefersReducedMotion) {
   gsap.set(heroLines, { yPercent: 110 });
   gsap.set([".hero__label", ".hero__bottom", ".hero__shape"], { autoAlpha: 0 });
 
-  const intro = gsap.timeline();
+  // Wait for fonts (max 1.5s) so the word doesn't swap typefaces mid-animation
+  const fontsReady = Promise.race([
+    document.fonts.ready,
+    new Promise((resolve) => setTimeout(resolve, 1500)),
+  ]);
+
+  const intro = gsap.timeline({ paused: true });
+  fontsReady.then(() => intro.play());
 
   intro
     .to(".preloader__word span", {
-      y: "0%",
-      yPercent: -110,
-      startAt: { yPercent: 0, y: "110%" },
+      y: 0,
       duration: 0.7,
       stagger: 0.045,
       ease: "power3.out",
