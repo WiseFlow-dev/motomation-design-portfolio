@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Motomation — Motion Design Studio</title>
+  <meta name="description" content="Motomation is a motion design studio crafting app promo videos, product films and brand motion that make people stop scrolling." />
+
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&f[]=general-sans@400,500,600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- Preloader -->
+  <div class="preloader" id="preloader">
+    <div class="preloader__word" aria-hidden="true">
+      <span>M</span><span>O</span><span>T</span><span>O</span><span>M</span><span>A</span><span>T</span><span>I</span><span>O</span><span>N</span>
+    </div>
+  </div>
+
+  <!-- Grain overlay -->
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- Custom cursor -->
+  <div class="cursor" aria-hidden="true">
+    <div class="cursor__dot"></div>
+    <div class="cursor__ring"></div>
+  </div>
+
+  <!-- Nav -->
+  <header class="nav">
+    <a class="nav__logo" href="#top" data-hover>MOTOMATION<sup>®</sup></a>
+    <nav class="nav__links">
+      <a href="#work" data-hover>Work</a>
+      <a href="#studio" data-hover>Studio</a>
+      <a href="#contact" data-hover>Contact</a>
+    </nav>
+    <div class="nav__status"><span class="nav__pulse"></span>Available for projects</div>
+  </header>
+
+  <main id="top">
+
+    <!-- Hero -->
+    <section class="hero">
+      <p class="hero__label mono">Motion design studio — est. 2026</p>
+      <h1 class="hero__title">
+        <span class="hero__line"><span class="hero__line-inner">VIDEOS THAT</span></span>
+        <span class="hero__line hero__line--indent"><span class="hero__line-inner"><em>MOVE</em> PEOPLE.</span></span>
+      </h1>
+      <div class="hero__bottom">
+        <p class="hero__sub">App promos, product films and brand motion<br />that make people stop scrolling.</p>
+        <a class="hero__cta" href="#work" data-hover>
+          <span class="hero__cta-circle">↓</span>
+          <span>See the work</span>
+        </a>
+      </div>
+      <div class="hero__shape hero__shape--ring" aria-hidden="true"></div>
+      <div class="hero__shape hero__shape--dot" aria-hidden="true"></div>
+      <div class="hero__shape hero__shape--cross" aria-hidden="true">+</div>
+    </section>
+
+    <!-- Marquee -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <span>APP PROMOS ✺ PRODUCT FILMS ✺ BRAND MOTION ✺ SOCIAL ADS ✺ LAUNCH TRAILERS ✺&nbsp;</span>
+        <span>APP PROMOS ✺ PRODUCT FILMS ✺ BRAND MOTION ✺ SOCIAL ADS ✺ LAUNCH TRAILERS ✺&nbsp;</span>
+      </div>
+    </div>
+
+    <!-- Work -->
+    <section class="work" id="work">
+      <div class="section-head reveal">
+        <h2 class="section-head__title">SELECTED WORK</h2>
+        <span class="section-head__num mono">/01</span>
+      </div>
+
+      <article class="project reveal" data-hover data-lightbox="assets/wiseflow-promo.mp4">
+        <div class="project__media">
+          <video class="project__video" src="assets/wiseflow-preview.mp4" poster="assets/wiseflow-poster.jpg" muted loop playsinline preload="metadata"></video>
+          <div class="project__play mono">▶ PLAY WITH SOUND</div>
+        </div>
+        <div class="project__meta">
+          <span class="project__num mono">/01</span>
+          <h3 class="project__title">WiseFlow — App Launch Film</h3>
+          <p class="project__tags mono">APP PROMO · MOTION DESIGN · SOUND</p>
+          <p class="project__desc">
+            A launch film for WiseFlow, a personal finance app. Script, design,
+            animation and sound — all made in-house, built to turn viewers
+            into downloads.
+          </p>
+          <span class="project__watch">Watch with sound <span class="slot__arrow">→</span></span>
+        </div>
+      </article>
+
+      <div class="slots">
+        <article class="slot reveal">
+          <span class="slot__num mono">/02</span>
+          <h3 class="slot__title">Next project</h3>
+          <p class="slot__sub mono">IN PRODUCTION ░░░░░░░░░░</p>
+        </article>
+        <a class="slot slot--cta reveal" href="#contact" data-hover>
+          <span class="slot__num mono">/03</span>
+          <h3 class="slot__title">Your product here <span class="slot__arrow">→</span></h3>
+          <p class="slot__sub mono">THIS SPOT IS WAITING FOR YOU</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- Services -->
+    <section class="services">
+      <div class="section-head reveal">
+        <h2 class="section-head__title">WHAT I MAKE</h2>
+        <span class="section-head__num mono">/02</span>
+      </div>
+      <div class="service reveal" data-hover>
+        <span class="service__num mono">01</span>
+        <h3 class="service__name">App Promo Videos</h3>
+        <p class="service__desc">A 30–60s film that sells your app before the user reads a word.</p>
+        <span class="service__arrow">→</span>
+      </div>
+      <div class="service reveal" data-hover>
+        <span class="service__num mono">02</span>
+        <h3 class="service__name">Product Explainers</h3>
+        <p class="service__desc">Complex product, simple story. Animated so people actually watch.</p>
+        <span class="service__arrow">→</span>
+      </div>
+      <div class="service reveal" data-hover>
+        <span class="service__num mono">03</span>
+        <h3 class="service__name">Social Cut-Downs</h3>
+        <p class="service__desc">Your film, re-cut for Reels, TikTok and Shorts. Built to stop thumbs.</p>
+        <span class="service__arrow">→</span>
+      </div>
+    </section>
+
+    <!-- Studio -->
+    <section class="studio" id="studio">
+      <div class="section-head reveal">
+        <h2 class="section-head__title">THE STUDIO</h2>
+        <span class="section-head__num mono">/03</span>
+      </div>
+      <p class="studio__text" id="studio-text">
+        Motomation is the studio of a builder. I designed, built and shipped my own
+        finance app — then made the film that launched it. I know products from the
+        inside, so I don't just animate screens. I animate the reason people should care.
+      </p>
+    </section>
+
+    <!-- Contact -->
+    <section class="contact" id="contact">
+      <p class="contact__label mono reveal">GOT A PRODUCT THAT DESERVES MOTION?</p>
+      <h2 class="contact__title">
+        <span class="contact__line"><span class="contact__line-inner">LET'S MAKE</span></span>
+        <span class="contact__line"><span class="contact__line-inner">IT <em>MOVE.</em></span></span>
+      </h2>
+      <button class="contact__email" id="email-btn" data-hover>
+        <span class="contact__email-text">motomation.co@gmail.com</span>
+        <span class="contact__email-copied mono">COPIED ✓</span>
+      </button>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <span class="mono">© 2026 MOTOMATION</span>
+    <span class="mono">MADE WITH OBSESSION</span>
+  </footer>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <div class="lightbox__backdrop" data-lightbox-close></div>
+    <button class="lightbox__close mono" data-lightbox-close data-hover>CLOSE ✕</button>
+    <video class="lightbox__video" id="lightbox-video" controls playsinline></video>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.11/dist/lenis.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
