@@ -183,11 +183,9 @@
       <p class="contact-modal__label mono">SEND MO A MESSAGE</p>
       <h3 class="contact-modal__title">Tell me about your product.</h3>
 
-      <form class="contact-form" id="contact-form" name="contact" method="POST" action="https://formsubmit.co/motomation.co@gmail.com">
-        <input type="hidden" name="_subject" value="New message from the Motomation website" />
-        <input type="hidden" name="_template" value="table" />
+      <form class="contact-form" id="contact-form" name="contact">
         <p class="contact-form__trap" aria-hidden="true">
-          <label>Leave this empty: <input name="_honey" tabindex="-1" autocomplete="off" /></label>
+          <label>Leave this empty: <input name="company" tabindex="-1" autocomplete="off" /></label>
         </p>
         <div class="contact-form__field">
           <label class="mono" for="cf-name">FULL NAME</label>
@@ -231,6 +229,7 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.11/dist/lenis.min.js"></script>
-  <script src="js/main.js?v=11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="js/main.js?v=12"></script>
 </body>
 </html>

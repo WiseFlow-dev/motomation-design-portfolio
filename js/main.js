@@ -286,13 +286,21 @@ window.addEventListener("keydown", (e) => {
 });
 
 /* ----------------------------------------------------------------
-   Contact dialog: open, close, send via FormSubmit
+   Contact dialog: open, close, send via EmailJS
 ---------------------------------------------------------------- */
 const contactModal = document.getElementById("contact-modal");
 const contactForm = document.getElementById("contact-form");
 const formSuccess = document.getElementById("form-success");
 const formError = document.getElementById("form-error");
 const openContactBtns = document.querySelectorAll("[data-open-contact]");
+
+const EMAILJS_SERVICE_ID = "service_u9dywxq";
+const EMAILJS_TEMPLATE_ID = "template_hp60o9f";
+const EMAILJS_PUBLIC_KEY = "BHenxEfDlUwnSLGJo";
+
+if (window.emailjs) {
+  emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+}
 
 function openContactModal() {
   contactModal.classList.add("is-open");
@@ -334,15 +342,8 @@ if (contactForm) {
     formError.hidden = true;
 
     try {
-      const res = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent("motomation.co@gmail.com")}`, {
-        method: "POST",
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: new URLSearchParams(new FormData(contactForm)).toString(),
-      });
-      if (!res.ok) throw new Error("send failed");
+      if (!window.emailjs) throw new Error("EmailJS failed to load");
+      await emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, contactForm);
       contactForm.hidden = true;
       formSuccess.hidden = false;
       if (!prefersReducedMotion) {
@@ -350,11 +351,12 @@ if (contactForm) {
           scale: 0.4, autoAlpha: 0, duration: 0.6, ease: "back.out(2)",
         });
       }
-    } catch {
-      // A normal form submission handles first-time email activation and
-      // browsers that block FormSubmit's background request.
-      sendBtn.textContent = "Opening secure form…";
-      HTMLFormElement.prototype.submit.call(contactForm);
+    } catch (error) {
+      // Keep the form open so the visitor can retry.
+      console.error("Contact form failed:", error);
+      formError.hidden = false;
+      sendBtn.disabled = false;
+      sendBtn.textContent = "Send it →";
     }
   });
 }
