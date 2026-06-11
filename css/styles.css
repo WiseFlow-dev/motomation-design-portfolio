@@ -323,7 +323,12 @@ a { color: inherit; text-decoration: none; }
 @media (max-width: 720px) {
   .hero { padding-top: 6rem; }
   .hero__title { font-size: clamp(2.6rem, 13.5vw, 4rem); }
-  .hero__line--indent { padding-left: 1.25rem; }
+  /* Staircase: each word on its own line, stepping right */
+  .hero__line--indent { padding-left: 0; }
+  .hero__title .w { display: block; }
+  .hero__title .w2 { margin-left: 0.55em; }
+  .hero__title .w3 { margin-left: 1.1em; }
+  .hero__title .w4 { margin-left: 1.65em; }
   .hero__bottom { margin-top: 2.5rem; }
   .hero__shape { display: none; }
 }
