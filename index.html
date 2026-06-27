@@ -11,7 +11,7 @@
   <link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&f[]=general-sans@400,500,600&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="css/styles.css?v=12" />
+  <link rel="stylesheet" href="css/styles.css?v=15" />
 </head>
 <body>
 
@@ -60,7 +60,7 @@
       <div class="hero__bottom">
         <p class="hero__sub">Your SaaS has a story. We tell it in motion —<br />and turn viewers into users.</p>
         <div class="hero__actions">
-          <button class="hero__send" data-open-contact data-hover>Send Mo a message →</button>
+          <button class="hero__send" data-open-contact data-hover>Get a free concept →</button>
           <a class="hero__cta" href="#work" data-hover>
             <span class="hero__cta-circle">↓</span>
             <span>See the work</span>
@@ -80,11 +80,36 @@
       </div>
     </div>
 
+    <!-- Process -->
+    <section class="process-section" id="process">
+      <div class="section-head reveal">
+        <h2 class="section-head__title skewable">HOW IT WORKS</h2>
+        <span class="section-head__num mono">/01</span>
+      </div>
+      <div class="process">
+        <div class="step reveal" data-hover>
+          <span class="step__num mono">01</span>
+          <h3 class="step__name">You share your product</h3>
+          <p class="step__desc">Drop me your site or app and what makes it matter. That's all I need to start.</p>
+        </div>
+        <div class="step reveal" data-hover>
+          <span class="step__num mono">02</span>
+          <h3 class="step__name">I send back a free concept</h3>
+          <p class="step__desc">A short, tailored concept made just for your product — no commitment, yours to keep.</p>
+        </div>
+        <div class="step reveal" data-hover>
+          <span class="step__num mono">03</span>
+          <h3 class="step__name">Full film in 48 hours</h3>
+          <p class="step__desc">Love it? I deliver the finished film — designed, animated and scored — in 48 hours.</p>
+        </div>
+      </div>
+    </section>
+
     <!-- Work -->
     <section class="work" id="work">
       <div class="section-head reveal">
         <h2 class="section-head__title skewable">SELECTED WORK</h2>
-        <span class="section-head__num mono">/01</span>
+        <span class="section-head__num mono">/02</span>
       </div>
 
       <article class="project reveal" data-hover data-lightbox="assets/wiseflow-promo.mp4">
@@ -175,7 +200,7 @@
     <section class="services">
       <div class="section-head reveal">
         <h2 class="section-head__title skewable">WHAT I MAKE</h2>
-        <span class="section-head__num mono">/02</span>
+        <span class="section-head__num mono">/03</span>
       </div>
       <div class="service reveal" data-hover>
         <span class="service__num mono">01</span>
@@ -201,7 +226,7 @@
     <section class="studio" id="studio">
       <div class="section-head reveal">
         <h2 class="section-head__title skewable">THE STUDIO</h2>
-        <span class="section-head__num mono">/03</span>
+        <span class="section-head__num mono">/04</span>
       </div>
       <p class="studio__text" id="studio-text">
         Motomation is the studio of a builder. I designed, built and shipped my own
@@ -213,12 +238,12 @@
 
     <!-- Contact -->
     <section class="contact" id="contact">
-      <p class="contact__label mono reveal">READY TO ELEVATE YOUR SAAS, APP OR BRAND?</p>
+      <p class="contact__label mono reveal">SEND ME YOUR PRODUCT. I'LL SEND BACK A CONCEPT — FREE.</p>
       <h2 class="contact__title skewable">
         <span class="contact__line"><span class="contact__line-inner">LET'S MAKE</span></span>
         <span class="contact__line"><span class="contact__line-inner">IT <em>MOVE.</em></span></span>
       </h2>
-      <button class="contact__send-btn" data-open-contact data-hover>Send Mo a message →</button>
+      <button class="contact__send-btn" data-open-contact data-hover>Get a free concept →</button>
     </section>
 
   </main>
@@ -233,7 +258,7 @@
     <div class="contact-modal__backdrop" data-modal-close></div>
     <div class="contact-modal__panel">
       <button class="contact-modal__close mono" data-modal-close data-hover>CLOSE ✕</button>
-      <p class="contact-modal__label mono">SEND MO A MESSAGE</p>
+      <p class="contact-modal__label mono">GET A FREE CONCEPT</p>
       <h3 class="contact-modal__title">Tell me about your product.</h3>
 
       <form class="contact-form" id="contact-form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
@@ -268,7 +293,7 @@
         <p>Got it — I'll reply within 24 hours. Keep an eye on your inbox.</p>
       </div>
       <p class="contact-form__error mono" id="form-error" hidden>
-        COULDN'T SEND — EMAIL ME DIRECTLY AT MOTOMATION.CO@GMAIL.COM
+        COULDN'T SEND — EMAIL ME DIRECTLY AT CONTACT@MOTOMATION.DESIGN
       </p>
     </div>
   </div>
