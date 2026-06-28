@@ -42,42 +42,80 @@ if (!prefersReducedMotion) {
   gsap.set(heroLines, { yPercent: 110 });
   gsap.set([".hero__label", ".hero__bottom", ".hero__shape"], { autoAlpha: 0 });
 
-  // Take over letter positioning in one unit (percent of letter height).
-  // The CSS translateY(110%) only prevents a flash before this line runs.
-  const letters = document.querySelectorAll(".preloader__word span");
-  gsap.set(letters, { y: 0, yPercent: 110 });
+  // Get elements
+  const axisH = document.querySelector(".preloader__axis-h");
+  const axisV = document.querySelector(".preloader__axis-v");
+  const taglineLetters = document.querySelectorAll(".preloader__tagline span");
 
-  // Wait for fonts (max 1.5s) so the word doesn't swap typefaces mid-animation
-  const fontsReady = Promise.race([
-    document.fonts.ready,
-    new Promise((resolve) => setTimeout(resolve, 1500)),
-  ]);
-
-  const intro = gsap.timeline({ paused: true });
-  fontsReady.then(() => intro.play());
+  // Play timeline immediately upon loading so the page feels instant and reactive
+  const intro = gsap.timeline();
 
   intro
-    // letters rise in a tight wave...
-    .to(letters, {
-      yPercent: 0,
-      duration: 0.55,
-      stagger: 0.035,
-      ease: "power3.out",
-    })
-    // ...the full word holds long enough to be read...
-    .to(letters, {
-      yPercent: -110,
-      duration: 0.45,
+    // Explicitly define label times to ensure overlapping animation paths
+    .addLabel("start", 0)
+    .addLabel("reveal", 0.3)
+    .addLabel("slide", 0.8)
+
+    // 1. Dot Strike / Spark Intro
+    .to(".preloader__spark", {
+      scale: 8,
+      opacity: 1,
+      duration: 0.35,
+      ease: "power2.out",
+    }, "start")
+    // Draw Axis coordinate lines outward
+    .to(axisH, { attr: { x1: 10, x2: 190 }, duration: 0.5, ease: "power2.out" }, "start+=0.1")
+    .to(axisV, { attr: { y1: 10, y2: 190 }, duration: 0.5, ease: "power2.out" }, "start+=0.1")
+    .to(".preloader__axes", { rotation: 30, duration: 2.5, ease: "none" }, "start")
+
+    // 2. Rings & Accents scaling up
+    .to(".preloader__ring--1", { scale: 1, opacity: 0.45, duration: 0.6, ease: "back.out(1.2)" }, "reveal")
+    .to(".preloader__ring--2", { scale: 1, opacity: 0.65, duration: 0.6, ease: "back.out(1.2)" }, "reveal+=0.03")
+    .to(".preloader__ring--3", { scale: 1, opacity: 0.4, duration: 0.6, ease: "back.out(1.2)" }, "reveal")
+    .to(".preloader__ring--3", { rotation: -45, duration: 2.5, ease: "none" }, "start")
+
+    // 3. Dot shrinks & Letter M reveals
+    .to(".preloader__spark", { scale: 2, opacity: 0, duration: 0.3, ease: "power2.in" }, "reveal+=0.1")
+    .to(".preloader__letter-m", { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(1.3)" }, "reveal+=0.1")
+    .to(".preloader__plus", { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(1.4)" }, "reveal+=0.18")
+    .to(".preloader__dot", { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(1.4)" }, "reveal+=0.22")
+
+    // 4. Logo shifts left & reveals text
+    .to(".preloader__text-reveal", {
+      maxWidth: "1000px",
+      opacity: 1,
+      duration: 0.85,
+      ease: "power3.out"
+    }, "slide")
+    .to(".preloader__text-inner", {
+      x: 0,
+      duration: 0.85,
+      ease: "power3.out"
+    }, "slide")
+
+    // 5. Line Draw
+    .to(".preloader__underline", { scaleX: 1, duration: 0.6, ease: "power2.out" }, "slide+=0.25")
+
+    // 6. Tagline reveal
+    .to(taglineLetters, {
+      opacity: 1,
+      y: 0,
+      duration: 0.4,
       stagger: 0.02,
-      ease: "power2.in",
-      delay: 0.6,
-    })
+      ease: "power2.out"
+    }, "slide+=0.35")
+
+    // 7. Hold the resolved logo sting (slightly shorter hold)
+    .to({}, { duration: 1.2 })
+
+    // 8. Slide preloader up and reveal hero
     .to("#preloader", {
       yPercent: -100,
-      duration: 0.7,
+      duration: 0.65,
       ease: "power4.inOut",
-    }, "-=0.15")
+    })
     .set("#preloader", { display: "none" })
+    
     // Hero reveal
     .to(heroLines, {
       yPercent: 0,
@@ -333,12 +371,27 @@ if (contactForm) {
     formError.hidden = true;
 
     try {
-      const res = await fetch("/", {
+      const formData = new FormData(contactForm);
+      const object = Object.fromEntries(formData);
+
+      // Honeypot check
+      if (object["bot-field"]) {
+        throw new Error("bot detected");
+      }
+      delete object["bot-field"];
+
+      const res = await fetch("https://formsubmit.co/ajax/motomation.co@gmail.com", {
         method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams(new FormData(contactForm)).toString(),
+        headers: { 
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify(object),
       });
-      if (!res.ok) throw new Error("send failed");
+      
+      const data = await res.json();
+      if (!res.ok || data.success === "false") throw new Error("send failed");
+
       contactForm.hidden = true;
       formSuccess.hidden = false;
       if (!prefersReducedMotion) {

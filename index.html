@@ -17,8 +17,49 @@
 
   <!-- Preloader -->
   <div class="preloader" id="preloader">
-    <div class="preloader__word" aria-hidden="true">
-      <span>M</span><span>O</span><span>T</span><span>O</span><span>M</span><span>A</span><span>T</span><span>I</span><span>O</span><span>N</span>
+    <div class="preloader__content">
+      <div class="preloader__lockup">
+        <!-- Logo Mark (Circle, Crosshair, M) -->
+        <div class="preloader__logo-mark">
+          <!-- Fine Axis Coordinate Lines -->
+          <svg class="preloader__axes" viewBox="0 0 200 200" aria-hidden="true">
+            <line class="preloader__axis-h" x1="100" y1="100" x2="100" y2="100" stroke="var(--bone)" stroke-width="0.8" opacity="0.5" />
+            <line class="preloader__axis-v" x1="100" y1="100" x2="100" y2="100" stroke="var(--bone)" stroke-width="0.8" opacity="0.5" />
+          </svg>
+
+          <!-- Inner Concentric Rings -->
+          <div class="preloader__ring preloader__ring--1"></div>
+          <div class="preloader__ring preloader__ring--2"></div>
+          <div class="preloader__ring preloader__ring--3"></div>
+
+          <!-- Central Spark Dot -->
+          <div class="preloader__spark"></div>
+
+          <!-- Orange Accent: Plus sign at top left -->
+          <div class="preloader__plus">+</div>
+
+          <!-- Orange Accent: Kinetic dot at bottom right -->
+          <div class="preloader__dot"></div>
+
+          <!-- Letter M Reveal -->
+          <div class="preloader__letter-m">M</div>
+        </div>
+
+        <!-- Text Reveal (OTOMATION®) -->
+        <div class="preloader__text-reveal">
+          <div class="preloader__text-inner">
+            OTOMATION<span class="preloader__registered">®</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tagline Lockup -->
+      <div class="preloader__tagline-container">
+        <div class="preloader__underline"></div>
+        <div class="preloader__tagline">
+          <span>M</span><span>O</span><span>T</span><span>I</span><span>O</span><span>N</span><span>&nbsp;</span><span>D</span><span>E</span><span>S</span><span>I</span><span>G</span><span>N</span><span>&nbsp;</span><span>S</span><span>T</span><span>U</span><span>D</span><span>I</span><span>O</span>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -190,8 +231,13 @@
       <div class="slots">
         <button class="slot slot--cta reveal" data-open-contact data-hover>
           <span class="slot__num mono">/05</span>
-          <span class="slot__title">Your product here <span class="slot__arrow">→</span></span>
-          <span class="slot__sub mono">THIS SPOT IS WAITING FOR YOU</span>
+          <h3 class="slot__title">Get a free 15s cinematic concept of your app <span class="slot__arrow">→</span></h3>
+          <p class="slot__desc">
+            We pitch with a gift. Tell us what you are building. We will write a storyboard,
+            animate your screens, and mix sound into a customized 15-second concept.
+            No contracts, no upfront fees. If you love it, we partner. If not, it is yours.
+          </p>
+          <span class="slot__sub mono">CLAIM YOUR PITCH GIFT NOW</span>
         </button>
       </div>
     </section>
@@ -261,8 +307,7 @@
       <p class="contact-modal__label mono">GET A FREE CONCEPT</p>
       <h3 class="contact-modal__title">Tell me about your product.</h3>
 
-      <form class="contact-form" id="contact-form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
-        <input type="hidden" name="form-name" value="contact" />
+      <form class="contact-form" id="contact-form" name="contact" method="POST">
         <p class="contact-form__trap" aria-hidden="true">
           <label>Leave this empty: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
         </p>
