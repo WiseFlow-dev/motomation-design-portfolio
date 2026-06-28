@@ -389,7 +389,13 @@ if (contactForm) {
         body: JSON.stringify(object),
       });
       
-      const data = await res.json();
+      const contentType = res.headers.get("content-type");
+      let data = {};
+      if (contentType && contentType.includes("application/json")) {
+        data = await res.json();
+      } else {
+        await res.text();
+      }
       if (!res.ok || data.success === "false") throw new Error("send failed");
 
       contactForm.hidden = true;
